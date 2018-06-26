@@ -18,7 +18,6 @@ def compute_rate(amount):  # endpoint 1
     return last_rate
 
 
-def reset_last_rate():  # endpoint 2
-    # type: () -> None
+def reset_last_rate() -> None:  # endpoint 2
     global last_rate
     last_rate = None

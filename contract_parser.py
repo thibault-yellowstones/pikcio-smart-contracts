@@ -2,13 +2,32 @@ import sys
 import logging
 from argparse import ArgumentParser
 
+from mypy import build
+from mypy.errors import CompileError
+from mypy.nodes import FuncDef
 
-def parse(source_code):
+
+def parse(source_path):
+    with open(source_path) as fd:
+        code = fd.read()
+
     logging.debug('Compiling source_code...')
-    module = compile(source_code, 'submitted_code', 'exec')
+    try:
+        mypy_file = build.parse(
+            source=code,
+            fnam="smart_contract.py",
+            module='__main__',
+            errors=None,
+            options=build.Options()
+        )
+        for def_ in mypy_file.defs:
+            if isinstance(def_, FuncDef):
+                print(def_.type)
+                print(def_.name())
+    except CompileError as e:
+        print(e)
     logging.debug('Done.')
 
-    module.
 
 def _parse_args():
     """Loads the arguments from the command line."""
@@ -24,8 +43,5 @@ if __name__ == '__main__':
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
                         format='%(asctime)s - %(levelname)s - %(message)s')
 
-    source_file = _parse_args()
-    with open(source_file, 'r') as fd:
-        code = fd.read()
-
-    parse(code)
+    args_file = _parse_args()
+    parse(args_file)
