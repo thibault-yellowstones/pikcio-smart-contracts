@@ -5,6 +5,7 @@ Author: Pikcio
 _RATE_1 = 0.4  # Internal rate. Not saved
 _RATE_2 = 0.2  # Internal rate. Not saved
 last_rate = None  # last given rate. Updated after each call
+other_var = 0.3
 
 
 def _get_previous_rate():  # Internal helper function
